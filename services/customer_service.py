@@ -68,8 +68,15 @@ class CustomerService():
             return
              
         telephone = input("Enter Phone number: ")
-        address = input("Enter address:")    
-    
+        if len(telephone) > 255:
+            print("Telephone is too long.")
+            return
+
+        address = input("Enter address:")   
+        if len(address) > 255:
+            print("address is too long.")
+            return
+        
         email = self.get_valid_email()
         if email is None:
             return

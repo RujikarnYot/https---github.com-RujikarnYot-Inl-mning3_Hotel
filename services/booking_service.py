@@ -43,10 +43,18 @@ class BookingService():
             print("Wrong format. Can not booking")
             return
         
+        today = date.today()
+        if check_in < today:
+            print("You cannot book in the past.")
+
         if check_out <= check_in:
             print("check out must be after check in.")
             return
         
+        if total_guest < 1 or total_guest > 4:
+            print("Total guest must be between 1 - 4 per room.")
+            return
+
         available_room = self.room_service.search_available_room(check_in,check_out,total_guest)
         self.room_service.print_room(available_room)
 
@@ -86,7 +94,7 @@ class BookingService():
 
         today = date.today()
         booking_date = today
-        create_at = today
+        
         duedate = booking_date + timedelta(days=10)
         paid_status = PaidEnum.UNPAID
         paid_date = None
@@ -109,8 +117,7 @@ class BookingService():
                      status = status,
                      booking_date= booking_date,
                      customer_id = customer_id,
-                     room_id= choosen_room.id,
-                     create_at = create_at
+                     room_id= choosen_room.id
             )
             invoice = Invoice(
                 amount = amount,
